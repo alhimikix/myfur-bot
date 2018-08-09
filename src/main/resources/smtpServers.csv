@@ -1,0 +1,10 @@
+gmail.com,smtp.gmail.com,500
+hotmail.com	smtp.live.com	200
+yahoo.com,smtp.mail.yahoo.com,100
+rambler.ru	smtp.rambler.ru	200
+mail.ru,smtp.mail.ru	,60
+yandex.ru	,smtp.yandex.ru	,150
+aol.com	,smtp.aol.com	,500
+lycos.com	,smtp.lycos.com	,250
+meta.ua	,smtp.meta.ua	,200
+ukr.net	,smtp.ukr.net	,250
