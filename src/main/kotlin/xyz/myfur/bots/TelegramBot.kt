@@ -3,9 +3,11 @@ package xyz.myfur.bots
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.TelegramBotsApi
+import org.telegram.telegrambots.api.methods.send.SendMessage
 import org.telegram.telegrambots.api.objects.Update
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import javax.annotation.PostConstruct
+import kotlin.concurrent.thread
 
 @Service
 class TelegramBot(@Autowired
@@ -24,12 +26,12 @@ class TelegramBot(@Autowired
     }
 
     private fun loadconfig() {
-        comixpath = "./comics/"
-        artpath   = "./arts/"
+        comixpath = Config.comicsPath.toString()
+        artpath   = Config.comicsPath.toString()
 
     }
 
-    var param: String = "661747027:AAEQc3QpwmNPAaJJ78HpiY2Eh37sQejOIaA"
+    var param: String = Config.botToken
 
 
     override fun getBotToken(): String {
@@ -40,8 +42,25 @@ class TelegramBot(@Autowired
         return "NePidor"
     }
 
-    override fun onUpdateReceived(p0: Update) {
-        botWorker.work(p0)
+    override fun onUpdateReceived(message: Update) {
+        thread {
+            botWorker.work(message)
+        }
+    }
+
+
+    fun sendApiM(x: SendMessage) {
+        sendApiMethod(x)
+    }
+
+    fun sendMsg(id: String, message: String) {
+        val msg = SendMessage(id, message).apply { enableMarkdown(true) }
+        sendApiMethod(msg)
+    }
+
+    fun sendMsg(id: Long, message: String) {
+        val msg = SendMessage(id, message).apply { enableMarkdown(true) }
+        sendApiMethod(msg)
     }
 
 }

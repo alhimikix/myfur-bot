@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration
 import org.telegram.telegrambots.ApiContextInitializer
 import org.telegram.telegrambots.TelegramBotsApi
 
+
+
+
 @Configuration
 class MainConfig {
     @Bean

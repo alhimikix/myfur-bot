@@ -4,23 +4,26 @@ import javax.persistence.*
 
 @Table(name = "users")
 @Entity
-class User(
+class User (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long,
-        @Column(nullable = false)
-        var name: String?,
-        var telegram_id:Long,
-        @Column(nullable = false)
-        var login: String?,
-        @Column(nullable = false)
-        var password: String?,
+        var id: Long? = null,
         @Column(nullable = true)
-        var email: String?,
+        var name: String? = null,
+        @Column(name="telegramid",unique = true)
+        var telegramid: Long? = null,
+        @Column(nullable = true)
+        var login: String? = null,
+        @Column(nullable = true)
+        var password: String? = null,
+        @Column(nullable = true)
+        var email: String? = null,
+
         @OneToMany(mappedBy = "owner")
         var comics: Set<Comics> = HashSet(),
         @OneToMany(mappedBy = "owner")
         var art: Set<Arts> = HashSet()
+
 )
 
 
@@ -29,29 +32,26 @@ class User(
 class Comics(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long,
+        var id: Long? = null,
         @ManyToOne()
         @JoinColumn(name = "comics_id")
-        var owner: User,
-        var name: String?,
-        var description: String?){
-    companion object {
-        fun create(id: Long = 0, owner: User, name: String? = null, description: String? = null): Comics {
-            return Comics(id, owner, name, description)
-        }
-    }}
+        var owner: User?=null,
+        var name: String? = null,
+        var description: String?=null) {
+
+}
 
 @Table(name = "arts")
 @Entity
 class Arts(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long,
+        var id: Long?=null,
         @ManyToOne()
         @JoinColumn(name = "arts_id")
-        var owner: User,
-        var name: String?,
-        var description: String?
+        var owner: User?=null,
+        var name: String?=null,
+        var description: String?=null
 ) {
     companion object {
         fun create(id: Long = 0, owner: User, name: String? = null, description: String? = null): Arts {
