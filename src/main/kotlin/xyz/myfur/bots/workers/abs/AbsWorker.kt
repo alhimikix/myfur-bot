@@ -1,16 +1,14 @@
-package xyz.myfur.bots.Workers
-
+package xyz.myfur.bots.workers.abs
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
 import org.telegram.telegrambots.api.objects.Update
 import xyz.myfur.bots.TelegramBot
 import xyz.myfur.dao.repositories.ArtsRepository
 import xyz.myfur.dao.repositories.ComicsRepository
 import xyz.myfur.dao.repositories.UserRepository
+import javax.annotation.PostConstruct
 
-@Service
-class HelloWorker {
+abstract class AbsWorker{
     @Autowired
     lateinit var bot: TelegramBot
     @Autowired
@@ -20,7 +18,10 @@ class HelloWorker {
     @Autowired
     lateinit var comics: ComicsRepository
 
-    fun run(x: Update) {
-        bot.sendMsg(x.message.chatId,"Привет ${x.message.from.firstName}")
+    @PostConstruct
+    fun postCreate(){
+        bot.addWorker(this)
     }
+    abstract fun run(message:Update)
+    abstract fun getPatterns(): Array<Regex>
 }

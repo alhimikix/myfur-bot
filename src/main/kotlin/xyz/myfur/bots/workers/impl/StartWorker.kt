@@ -1,27 +1,19 @@
-package xyz.myfur.bots.Workers
+package xyz.myfur.bots.workers.impl
 
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
 import org.telegram.telegrambots.api.objects.Update
-import xyz.myfur.bots.TelegramBot
+import xyz.myfur.bots.workers.BotWorker
+import xyz.myfur.bots.workers.abs.AbsWorker
 import xyz.myfur.dao.entities.User
-import xyz.myfur.dao.repositories.ArtsRepository
-import xyz.myfur.dao.repositories.ComicsRepository
-import xyz.myfur.dao.repositories.UserRepository
 
-@Service
-class StartWorker{
-    @Autowired
-    lateinit var bot: TelegramBot
-    @Autowired
-    lateinit var users: UserRepository
-    @Autowired
-    lateinit var arts: ArtsRepository
-    @Autowired
-    lateinit var comics: ComicsRepository
+@BotWorker("Главный помошник")
+class StartWorker: AbsWorker(){
+    override fun getPatterns(): Array<Regex> {
+        return arrayOf(Regex("(начнем работу|/start)"))
+    }
 
-    fun run(x: Update) {
+
+    override fun run(x: Update) {
         var u = users.findByTelegramid(x.message.from.id.toLong())
         val us = x.message.from
         if (u.isEmpty()) {
